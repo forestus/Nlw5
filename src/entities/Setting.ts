@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn} from "typeorm";
 import { v4 as uuid } from "uuid";
 
 @Entity("settings")
@@ -16,7 +16,7 @@ export class Setting {
     @UpdateDateColumn()
     updated_at: Date;
     
-    @UpdateDateColumn()
+    @CreateDateColumn()
     created_at: Date;
 
     constructor(){

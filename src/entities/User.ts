@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn} from "typeorm";
 import {v4 as uuid} from "uuid";
 
 @Entity("users")
@@ -10,7 +10,7 @@ export class User {
     @Column()
     email: string; 
     
-    @UpdateDateColumn()
+    @CreateDateColumn()
     created_at: Date;
 
     constructor(){

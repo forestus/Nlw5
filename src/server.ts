@@ -1,12 +1,7 @@
-import express from "express";
-import "./database";
-import "reflect-metadata";
-import {routes} from "./routes";
+import { httpServer } from "./http";
+const PORT = process.env.PORT;
+import "./websocket/client";
 
-const app = express();
-app.use(express.json())
-app.use(routes)
-
-app.listen(3333,()=>{
-    console.log("server on PORT 3333")
+httpServer.listen(3333,()=>{
+    console.log(`server on http://locahost:${PORT}`)
 })

@@ -1,11 +1,11 @@
 import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 
-export class CreateMessages1619035805633 implements MigrationInterface {
+export class CreateConnections1619156121226 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "messages",
+                name: "connections",
                 columns: [
                     {
                         name: "id",
@@ -18,15 +18,20 @@ export class CreateMessages1619035805633 implements MigrationInterface {
                         isNullable: true
                     },
                     {
-                        name:"user_id",
+                        name: "user_id",
                         type: "uuid"
-                    },
-                    {
-                        name:"text",
-                        type: "varchar"
                     }, 
                     {
+                        name: "socket_id",
+                        type: "varchar"
+                    },  
+                    {
                         name:"created_at",
+                        type:"timestamp",
+                        default: "now()"
+                    },  
+                    {
+                        name:"updated_at",
                         type:"timestamp",
                         default: "now()"
                     }
@@ -34,9 +39,9 @@ export class CreateMessages1619035805633 implements MigrationInterface {
             })
         )
         await queryRunner.createForeignKey(
-            "messages",
+            "connections",
             new TableForeignKey({
-                name:"FKUser",
+                name:"FKConnectionUser",
                 referencedTableName: "users",
                 referencedColumnNames:["id"],
                 columnNames: ["user_id"],
@@ -47,8 +52,8 @@ export class CreateMessages1619035805633 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropForeignKey("messages", "FKUser");
-        await queryRunner.dropTable("messages");
+        await queryRunner.dropForeignKey("connections", "FKConnectionUser");
+        await queryRunner.dropTable("connections");
     }
 
 }
