@@ -1,30 +1,35 @@
 import express from "express";
 import { createServer } from "http";
-import {Server,Socket  } from "socket.io";
-import { renderFile } from "ejs";
-import {routes} from "./routes";
+import { Server, Socket } from "socket.io";
 import path from "path";
+
 import "./database";
-import "reflect-metadata";
- 
+import { routes } from "./routes";
+
 const app = express();
-const httpServer = createServer(app); //http
-const io = new Server(httpServer);//websocket
 
-app.use(express.json());
-app.use(routes);
-app.use(express.static(path.join(__dirname, "..",'public')));
-app.set('views', path.join(__dirname, "..",'public'));
-app.engine('html', renderFile);
-app.set('view engine', 'html');
+app.use(express.static(path.join(__dirname, "..", "public")));
+app.set("views", path.join(__dirname, "..", "public"));
+app.engine("html", require("ejs").renderFile);
+app.set("view engine", "html");
 
-
-app.get("/pages/client",(request,response)=>{
-    return response.render("html/client.html")
-})
-
-io.on("connection", (socket: Socket) => {
-   console.log("se conectou", socket.id)
+app.get("/pages/client", (request, response) => {
+    return response.render("html/client.html");
 });
 
-export {httpServer, io}
+app.get("/pages/admin", (request, response) => {
+    return response.render("html/admin.html");
+});
+
+const http = createServer(app); // Criando protoloco http
+const io = new Server(http); // Criando protocolo ws
+
+io.on("connection", (socket: Socket) => {
+    //console.log("Se conectou", socket.id);
+});
+
+app.use(express.json());
+
+app.use(routes);
+
+export { http, io };

@@ -1,7 +1,5 @@
-import { httpServer } from "./http";
-const PORT = process.env.PORT;
+import { http } from "./http";
 import "./websocket/client";
+import "./websocket/admin";
 
-httpServer.listen(3333,()=>{
-    console.log(`server on http://locahost:${PORT}`)
-})
+http.listen(3333, () => console.log("Server is running on port 3333."));
